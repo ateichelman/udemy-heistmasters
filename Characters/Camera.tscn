@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://GFX/PNG/Tiles/tile_536.png" type="Texture" id=1]
+[ext_resource path="res://GFX/PNG/Tiles/tile_463.png" type="Texture" id=2]
+[ext_resource path="res://Lightmaps/Torch.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Characters/PlayerDetection.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "CameraRotation"
+length = 8.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1, 2, 3, 4, 5, 6, 7, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -30.0, -30.0, 0.0, 0.0, 30.0, 30.0, 0.0 ]
+}
+
+[node name="Camera" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 16.0981, 0 )
+rotation = -0.00281013
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="CameraBody" type="KinematicBody2D" parent="."]
+position = Vector2( 31.7771, 0 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="CameraBody"]
+rotation = 1.5708
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBody"]
+visible = false
+shape = SubResource( 1 )
+disabled = true
+
+[node name="Torch" parent="CameraBody" instance=ExtResource( 3 )]
+position = Vector2( 11.0797, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CameraBody"]
+autoplay = "CameraRotation"
+anims/CameraRotation = SubResource( 2 )
